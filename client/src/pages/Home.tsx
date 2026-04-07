@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
+  BadgeCheck,
   CalendarDays,
   Clock3,
   Instagram,
   MapPin,
   Phone,
-  Scissors,
   Star,
   Users,
   WalletCards,
@@ -22,43 +22,95 @@ const directionsUrl =
 const address = "4234 S Westmoreland Rd, Oak Cliff, TX 75233";
 const hours = "Monday - Saturday · 10 am to 7pm";
 
-const services = [
-  {
-    name: "Signature Haircut",
-    price: "$35+",
-    detail: "Detailed cut, razor-sharp lineup, and a finish that keeps its shape after you leave.",
-  },
-  {
-    name: "Premium Fade",
-    price: "$40+",
-    detail: "Low, mid, high, burst, or skin fades blended clean with real attention to symmetry.",
-  },
-  {
-    name: "Beard Trim",
-    price: "$20+",
-    detail: "Structured beard shaping, cleanup work, and crisp edges to match the cut.",
-  },
-  {
-    name: "Kids Cut",
-    price: "$25+",
-    detail: "Patient, kid-friendly service that still delivers a sharp, photo-ready result.",
-  },
-];
+const serviceMenuChips = ["Most booked", "Walk-ins welcome", "Kid-friendly"] as const;
 
 const pricingMenu = [
-  { name: "Hot towel shave", price: "$40.00", duration: "20 min" },
-  { name: "Hair cut and beard", price: "$40.00", duration: "30 min" },
-  { name: "Hair cut", price: "$30.00", duration: "30 min" },
-  { name: "Line up(tape) with beard", price: "$25.00", duration: "25 min" },
-  { name: "Line Up", price: "$20.00", duration: "15 min" },
-  { name: "Enhancement", price: "$10.00", duration: "10 min" },
-];
+  {
+    name: "Hot towel shave",
+    price: "$40.00",
+    duration: "20 min",
+    detail:
+      "Hot towel prep with a steady razor finish—smooth skin, clean lines, and a relaxed close.",
+  },
+  {
+    name: "Hair cut and beard",
+    price: "$40.00",
+    duration: "30 min",
+    detail: "Full haircut paired with beard shaping and crisp edge work from neck to cheek.",
+  },
+  {
+    name: "Hair cut",
+    price: "$30.00",
+    duration: "30 min",
+    detail: "Sharp silhouette, blended fades or tapers, and a lineup that holds its shape.",
+  },
+  {
+    name: "Line up(tape) with beard",
+    price: "$25.00",
+    duration: "25 min",
+    detail: "Tape-assisted lineup with beard cleanup so the edges stay photo-ready.",
+  },
+  {
+    name: "Line Up",
+    price: "$20.00",
+    duration: "15 min",
+    detail: "Quick edge refresh—hairline, temples, and back taper touched up with precision.",
+  },
+  {
+    name: "Enhancement",
+    price: "$10.00",
+    duration: "10 min",
+    detail: "Targeted detail work to sharpen the finish and even out the look.",
+  },
+] as const;
 
-const testimonials = [
-  "Great customer service and the cut exceeded expectations.",
-  "Amazing atmosphere. You can feel the good energy as soon as you walk in.",
-  "Good vibe, good people, excellent barbers. Best shop in the area.",
-];
+const bookReviews = [
+  {
+    id: "1",
+    clientName: "Charles",
+    date: "Feb 15, 2026",
+    dateIso: "2026-02-15",
+    service: "Hair cut",
+    staff: "Joel Roig",
+    text: "Amazing cut, as always!",
+  },
+  {
+    id: "2",
+    clientName: "David",
+    date: "Feb 11, 2026",
+    dateIso: "2026-02-11",
+    service: "Hair cut and beard",
+    staff: "Joel Roig",
+    text: "Amazing cut",
+  },
+  {
+    id: "3",
+    clientName: "Jonathan",
+    date: "Jan 29, 2026",
+    dateIso: "2026-01-29",
+    service: "Hair cut and beard",
+    staff: "Joel Roig",
+    text: "Excellent service",
+  },
+  {
+    id: "4",
+    clientName: "Ned",
+    date: "Dec 10, 2025",
+    dateIso: "2025-12-10",
+    service: "Hair cut and beard",
+    staff: "Joel Roig",
+    text: "Flash is easily the best barber in Oak Cliff.",
+  },
+  {
+    id: "5",
+    clientName: null as string | null,
+    date: "Oct 30, 2025",
+    dateIso: "2025-10-30",
+    service: "Hair cut",
+    staff: "Joel Roig",
+    text: "Best fade I ever got. Highly recommend",
+  },
+] as const;
 
 const gallery = [
   {
@@ -286,81 +338,71 @@ export default function Home() {
                 <h2 className="section-title">Sharp work, clean detail, and options for every seat.</h2>
               </div>
               <p className="detail-copy max-w-xl lg:justify-self-end">
-                From fresh fades to beard cleanup and kid-friendly cuts, every service is built to
-                feel polished, fast, and worth pulling up for.
+                Exact times and prices on every card—pick your service and book in one tap.
               </p>
             </div>
 
             <div className="grid gap-5 xl:grid-cols-[1.15fr_0.85fr]">
               <Card className="service-hero-card rounded-[2rem] p-7 md:p-8">
                 <div className="flex flex-wrap items-center gap-3">
-                  <span className="service-chip">Most booked</span>
-                  <span className="service-chip">Walk-ins welcome</span>
-                  <span className="service-chip">Kid-friendly</span>
+                  {serviceMenuChips.map((label) => (
+                    <span key={label} className="service-chip">
+                      {label}
+                    </span>
+                  ))}
                 </div>
-                <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-end">
+                <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_minmax(0,auto)] lg:items-end">
                   <div>
                     <p className="service-index">01</p>
-                    <h3 className="mt-4 font-display text-[2.8rem] uppercase leading-none tracking-[0.05em] text-white md:text-[4rem]">
-                      Signature Haircut
+                    <h3 className="mt-4 font-display text-[2.2rem] uppercase leading-none tracking-[0.05em] text-white sm:text-[2.8rem] md:text-[3.25rem]">
+                      {pricingMenu[0].name}
                     </h3>
-                    <p className="mt-5 max-w-2xl text-base leading-8 text-white/74">
-                      Clean cut, crisp lineup, and a finished look that holds up after you leave
-                      the chair. Built for clients who want precision without the rushed feel.
+                    <p className="mt-2 text-xs uppercase tracking-[0.28em] text-foreground/50">
+                      {pricingMenu[0].duration}
                     </p>
+                    <p className="mt-5 max-w-2xl text-base leading-8 text-white/74">{pricingMenu[0].detail}</p>
                   </div>
-                  <div className="service-hero-price">
-                    <p className="service-hero-label">Starting at</p>
-                    <p className="service-hero-amount">$35+</p>
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-end lg:flex-col xl:flex-row xl:items-end">
+                    <div className="service-hero-price min-w-[10rem]">
+                      <p className="service-hero-label">Price</p>
+                      <p className="service-hero-amount text-5xl md:text-6xl">{pricingMenu[0].price}</p>
+                    </div>
+                    <Button
+                      size="lg"
+                      className="shrink-0 uppercase tracking-[0.2em]"
+                      onClick={() => window.open(bookingUrl, "_blank")}
+                    >
+                      Book
+                    </Button>
                   </div>
                 </div>
               </Card>
 
               <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-1">
-                {services.slice(1).map((service, index) => (
-                  <Card key={service.name} className="service-card rounded-[1.8rem] border-white/10 p-6 md:p-7">
+                {pricingMenu.slice(1).map((item, index) => (
+                  <Card key={item.name} className="service-card rounded-[1.8rem] border-white/10 p-6 md:p-7">
                     <div className="flex items-start justify-between gap-4">
-                      <div>
+                      <div className="min-w-0">
                         <p className="service-index">0{index + 2}</p>
-                        <h3 className="mt-4 font-display text-[1.8rem] uppercase leading-none tracking-[0.06em] text-white">
-                          {service.name}
+                        <h3 className="mt-4 font-display text-[1.55rem] uppercase leading-[1.05] tracking-[0.06em] text-white sm:text-[1.8rem]">
+                          {item.name}
                         </h3>
+                        <p className="mt-2 text-xs uppercase tracking-[0.22em] text-foreground/46">
+                          {item.duration}
+                        </p>
                       </div>
-                      <p className="font-display text-3xl uppercase tracking-[0.08em] text-primary">
-                        {service.price}
+                      <p className="shrink-0 font-display text-2xl uppercase tracking-[0.08em] text-primary sm:text-3xl">
+                        {item.price}
                       </p>
                     </div>
                     <div className="service-divider" />
-                    <p className="detail-copy text-[1rem] leading-8">{service.detail}</p>
-                  </Card>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-12 grid gap-6 lg:grid-cols-[0.62fr_1.38fr] xl:gap-8">
-              <div className="space-y-5 max-w-xl">
-                <p className="section-kicker">Service Menu</p>
-                <h3 className="section-title max-w-[9ch]">Exact pricing, same section, cleaner flow.</h3>
-                <p className="body-copy max-w-lg">
-                  The core service cards set the tone, and the full menu below gives the exact
-                  pricing and timing clients need before they book.
-                </p>
-              </div>
-
-              <div className="pricing-list">
-                {pricingMenu.map((item) => (
-                  <div key={item.name} className="pricing-list-row">
-                    <div className="min-w-0">
-                      <p className="pricing-list-name">{item.name}</p>
-                      <p className="pricing-list-duration">{item.duration}</p>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <p className="pricing-list-price">{item.price}</p>
-                      <Button size="sm" onClick={() => window.open(bookingUrl, "_blank")}>
+                    <p className="detail-copy text-[1rem] leading-8">{item.detail}</p>
+                    <div className="mt-6 flex justify-end">
+                      <Button size="sm" className="uppercase tracking-[0.22em]" onClick={() => window.open(bookingUrl, "_blank")}>
                         Book
                       </Button>
                     </div>
-                  </div>
+                  </Card>
                 ))}
               </div>
             </div>
@@ -372,38 +414,80 @@ export default function Home() {
             <div className="mb-10 max-w-3xl">
               <p className="section-kicker">Reviews</p>
               <h2 className="section-title">Real feedback from people who know a clean cut.</h2>
+              <p className="body-copy mt-4 max-w-2xl text-foreground/78">
+                Recent five-star reviews from confirmed Booksy clients.
+              </p>
             </div>
 
-            <div className="grid gap-5 lg:grid-cols-[0.72fr_1.28fr]">
-              <Card className="feature-card justify-between p-7">
+            <div className="grid gap-5 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
+              <Card className="feature-card justify-between gap-8 p-7 lg:sticky lg:top-28">
                 <div>
-                  <p className="eyebrow-copy">Client rating highlight</p>
-                  <p className="mt-4 font-display text-7xl uppercase leading-none text-white">4.9+</p>
-                  <div className="mt-4 flex gap-1 text-primary">
+                  <p className="eyebrow-copy">Booksy clients</p>
+                  <p className="mt-4 font-display text-7xl uppercase leading-none text-white">5★</p>
+                  <div className="mt-4 flex gap-0.5 text-amber-400">
                     {Array.from({ length: 5 }).map((_, index) => (
-                      <Star key={index} size={18} className="fill-current" />
+                      <Star key={index} size={20} className="fill-current text-amber-400" />
                     ))}
                   </div>
                 </div>
                 <p className="detail-copy max-w-sm">
-                  Great customer service, an amazing atmosphere, and good people behind the chair
-                  keep Trappin Cutz in heavy rotation.
+                  Verified “confirmed client” reviews below list the service booked and the barber behind
+                  the chair—straight from how they show up on Booksy.
                 </p>
               </Card>
 
-              <div className="grid gap-5 md:grid-cols-3">
-                {testimonials.map((quote, index) => (
-                  <Card key={quote} className="feature-card p-6">
-                    <div className="flex gap-1 text-primary">
-                      {Array.from({ length: 5 }).map((_, starIndex) => (
-                        <Star key={starIndex} size={16} className="fill-current" />
-                      ))}
+              <div className="reviews-feed rounded-[1.9rem] border border-white/10 bg-black/20">
+                {bookReviews.map((review, index) => (
+                  <article
+                    key={review.id}
+                    className={`reviews-feed-row px-5 py-6 sm:px-7 sm:py-7 ${index > 0 ? "border-t border-white/10" : ""}`}
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <div className="flex min-w-0 flex-wrap items-center gap-2">
+                        {review.clientName ? (
+                          <>
+                            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-sm font-semibold uppercase tracking-wide text-white/90">
+                              {review.clientName.slice(0, 1)}
+                            </span>
+                            <span className="font-medium text-white">{review.clientName}</span>
+                          </>
+                        ) : null}
+                        <span className="inline-flex items-center gap-1.5 rounded-full border border-sky-500/35 bg-sky-500/10 px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-sky-300">
+                          <BadgeCheck className="size-3.5 shrink-0 text-sky-400" aria-hidden />
+                          Confirmed client
+                        </span>
+                      </div>
                     </div>
-                    <p className="body-copy">“{quote}”</p>
-                    <p className="text-xs uppercase tracking-[0.28em] text-primary/84">
-                      Oak Cliff client 0{index + 1}
-                    </p>
-                  </Card>
+
+                    <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+                      <div className="flex gap-0.5 text-amber-400">
+                        {Array.from({ length: 5 }).map((_, starIndex) => (
+                          <Star key={starIndex} size={16} className="fill-current text-amber-400" />
+                        ))}
+                      </div>
+                      <time
+                        dateTime={review.dateIso}
+                        className="text-xs uppercase tracking-[0.22em] text-foreground/45"
+                      >
+                        {review.date}
+                      </time>
+                    </div>
+
+                    <dl className="mt-5 space-y-2 text-sm">
+                      <div className="flex flex-wrap gap-x-2 gap-y-1">
+                        <dt className="text-foreground/45">Service</dt>
+                        <dd className="font-medium text-white/92">{review.service}</dd>
+                      </div>
+                      <div className="flex flex-wrap gap-x-2 gap-y-1">
+                        <dt className="text-foreground/45">Staff</dt>
+                        <dd className="font-medium text-white/92">{review.staff}</dd>
+                      </div>
+                    </dl>
+
+                    <blockquote className="body-copy mt-5 border-l-2 border-primary/40 pl-4 text-white/88">
+                      “{review.text}”
+                    </blockquote>
+                  </article>
                 ))}
               </div>
             </div>
