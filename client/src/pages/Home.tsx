@@ -495,7 +495,7 @@ export default function Home() {
         </section>
 
         <section className="section-divider bg-card/32 py-20 md:py-24">
-          <div className="container grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div className="container">
             <div className="space-y-6">
               <p className="section-kicker">Booking</p>
               <h2 className="section-title">Book fast or just pull up.</h2>
@@ -512,25 +512,6 @@ export default function Home() {
                 </Button>
               </div>
             </div>
-
-            <Card className="cta-card p-7 sm:p-8">
-              <p className="eyebrow-copy">Quick facts</p>
-              <div className="mt-5 space-y-4">
-                {[
-                  "Walk-ins welcome every day",
-                  "Kid-friendly barbershop experience",
-                  "Restroom available",
-                  "Popular times insight: 2 PM is usually not busy",
-                ].map((item) => (
-                  <div key={item} className="flex items-start gap-3">
-                    <span className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary/12 text-primary">
-                      <Star size={14} />
-                    </span>
-                    <p className="detail-copy text-white/82">{item}</p>
-                  </div>
-                ))}
-              </div>
-            </Card>
           </div>
         </section>
 
